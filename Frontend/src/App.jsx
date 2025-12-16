@@ -14,6 +14,7 @@ function App() {
     try {
       const result = await analyzReviews(url);
       setData(result);
+      console.log(result);
     } catch (err) {
       console.error(err);
       alert(err.response?.data?.error || "Backend error");
