@@ -1,53 +1,60 @@
 import { useState } from "react";
-import { analyzReviews } from "./api/reviewApi";
-import SentimentCards from "./components/SentimentCards";
+import { analyzeReviews } from "./api/reviewApi";
 import ReviewCharts from "./components/ReviewCharts";
 import ReviewList from "./components/ReviewList";
 
 function App() {
   const [url, setUrl] = useState("");
-  const [data, setData] = useState(null);
+  const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const handleAnalyze = async () => {
+    if (!url.trim()) return;
+
     setLoading(true);
     try {
-      const result = await analyzReviews(url);
-      setData(result);
-      console.log(result);
-    } catch (err) {
-      console.error(err);
-      alert(err.response?.data?.error || "Backend error");
-  }
-  setLoading(false);
-};
+      const data = await analyzeReviews(url);
+      setResult(data);
+    } catch (error) {
+      alert("Backend not reachable. Is Flask running?");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-return (
-  <div style={{ padding: "20px", maxWidth: "900px", margin: "auto" }}>
-    <h2>Amazon Review Analyzer</h2>
+  return (
+    <div style={{ padding: 30, fontFamily: "Arial" }}>
+      <h2>Amazon Product Review Analysis</h2>
 
-    <input
-      style={{ width: "70%", padding: "8px" }}
-      placeholder="Paste Amazon product URL"
-      value={url}
-      onChange={(e) => setUrl(e.target.value)}
-    />
+      <input
+        type="text"
+        placeholder="Paste Amazon product URL"
+        value={url}
+        onChange={(e) => setUrl(e.target.value)}
+        style={{ width: "70%", padding: 8 }}
+      />
 
-    <button onClick={handleAnalyze} style={{ marginLeft: "10px" }}>
-      Analyze
-    </button>
+      <button
+        onClick={handleAnalyze}
+        style={{ marginLeft: 10, padding: "8px 16px" }}
+      >
+        Analyze
+      </button>
 
-    {loading && <p>Analyzing reviews...</p>}
+      {loading && <p>Analyzing reviews...</p>}
 
-    {data && (
-      <>
-        <SentimentCards sentiment={data.sentiment} />
-        <ReviewCharts sentiment={data.sentiment} />
-        <ReviewList reviews={data.reviews} />
-      </>
-    )}
-  </div>
-);
+      {result && (
+        <>
+          <p><b>ASIN:</b> {result.asin}</p>
+          <p><b>Source:</b> {result.review_source}</p>
+          <p><b>Total Reviews:</b> {result.total_reviews}</p>
+
+          <ReviewCharts analysis={result.analysis} />
+          <ReviewList reviews={result.sample_reviews || []} />
+        </>
+      )}
+    </div>
+  );
 }
 
 export default App;

@@ -1,17 +1,11 @@
-import axios from "axios"
+import axios from "axios";
 
-export const analyzReviews = async (productUrl)=>{
-    const resoponse = await axios.post("https://amazonreviewsystembackend-production.up.railway.app/analyze",{
-        url: productUrl,
-    });
-    return resoponse.data;
-};
-export const getAnalyzReviews = async () => {
-  try {
-    const response = await axios.get("https://amazonreviewsystembackend-production.up.railway.app/analyze");
-    return response.data;
-  } catch (error) {
-    console.error("Get Analyze Reviews API error:", error);
-    throw error;
-  }
+const API_URL = "http://localhost:5000/analyze";
+
+export const analyzeReviews = async (productUrl) => {
+  const response = await axios.post(API_URL, {
+    product_url: productUrl,
+  });
+  console.log(response.data);
+  return response.data;
 };

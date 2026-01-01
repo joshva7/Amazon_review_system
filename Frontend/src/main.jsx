@@ -1,11 +1,10 @@
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import Home from './pages/Home.jsx'
-import { Prodatesprov } from './globalcontext/Prodatesetprov.jsx'
-createRoot(document.getElementById('root')).render(
-  <>
-    <Prodatesprov>
-    <Home />
-    </Prodatesprov>
-  </>,
-)
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import "./index.css";
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);

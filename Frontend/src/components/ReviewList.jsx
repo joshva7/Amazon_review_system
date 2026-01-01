@@ -1,18 +1,16 @@
-export default function ReviewList({ reviews }) {
+function ReviewList({ reviews }) {
   return (
-    <div style={{ marginTop: "30px" }}>
+    <div style={{ marginTop: 30 }}>
       <h3>Sample Reviews</h3>
-
-      {Object.entries(reviews).map(([type, list]) => (
-        <div key={type}>
-          <h4>{type.toUpperCase()}</h4>
-          {list.map((review, index) => (
-            <p key={index} style={{ borderBottom: "1px solid #ddd" }}>
-              {review}
-            </p>
-          ))}
-        </div>
-      ))}
+      <ul>
+        {reviews.map((review, index) => (
+          <li key={index} style={{ marginBottom: 8 }}>
+            {review}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
+
+export default ReviewList;
