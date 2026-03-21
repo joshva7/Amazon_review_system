@@ -26,10 +26,10 @@ def analyze_reviews(reviews):
 
     total = len(reviews)
     return {
-        "total 👍:": total,
-        "positive 😀:": pos,
-        "negative ☹️:": neg,
-        "neutral 🥺:": neu,
+        "total": total,
+        "positive": pos,
+        "negative": neg,
+        "neutral": neu,
         "positive_percent": round(pos / total * 100, 2) if total else 0,
         "negative_percent": round(neg / total * 100, 2) if total else 0,
         "neutral_percent": round(neu / total * 100, 2) if total else 0,

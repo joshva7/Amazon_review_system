@@ -18,7 +18,7 @@ ChartJS.register(
 
 const SentimentBar = ({ analysis }) => {
   if (!analysis) return null;
-
+  
   const data = {
     labels: ["Positive", "Neutral", "Negative"],
     datasets: [

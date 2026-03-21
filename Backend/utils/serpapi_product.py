@@ -1,5 +1,5 @@
 import os
-import requests
+import requests 
 
 SERPAPI_KEY = os.getenv("SERPAPI_KEY")
 
@@ -7,7 +7,6 @@ def fetch_amazon_product_details(asin, country="in"):
     if not SERPAPI_KEY or not asin:
         return {}
 
-    # 1️⃣ Try amazon_product engine (may fail on free plan)
     params = {
         "engine": "amazon_product",
         "amazon_domain": f"amazon.{country}",

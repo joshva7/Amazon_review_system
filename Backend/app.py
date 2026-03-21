@@ -12,7 +12,12 @@ from utils.asin_extractor import extract_asin
 from utils.serpapi_reviews import fetch_amazon_reviews
 from flask_cors import CORS
 from nlp.review_chat import build_review_embeddings, chat_with_reviews
+from dotenv import load_dotenv
 load_dotenv()
+import os
+import sys
+api_key = os.getenv("SERPAPI_KEY")
+print("Loaded key:", api_key)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, BASE_DIR)
 DEMO_ANALYSIS_CACHE = analyze_reviews(DEMO_REVIEWS.copy())
@@ -50,9 +55,9 @@ def analyze():
     print("Original URL:", product_url)
     print("Resolved URL:", resolved_url)
     print("Extracted ASIN:", asin)
-    api_key = os.getenv("API_KEY")
+    SERPAPI_KEY = os.getenv("SERPAPI_KEY")
 
-    if api_key is None:
+    if SERPAPI_KEY is None:
         print("API_KEY not found in .env file")
     else:
         print("API_KEY loaded successfully")
@@ -112,7 +117,6 @@ def chat_reviews():
     MIN_REVIEWS = 10
     reviews = []
 
-    # ---- Review Source Logic (Reuse Your Existing Logic) ----
     if user_reviews:
         reviews = list(user_reviews)
 

@@ -1,14 +1,33 @@
 import { useState, useContext } from "react";
-// import { DataContext } from "../context/DataContext";
 import { DataContext } from "../Context/Datacontextprovied";
+
 const Searchbar = () => {
   const [productUrl, setProductUrl] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const { setData } = useContext(DataContext);
 
+  // ✅ Amazon URL Validator
+  const isAmazonProductUrl = (url) => {
+    const pattern =
+      /^(https?:\/\/)?(www\.)?(amazon\.[a-z.]+\/.*(dp|gp\/product)\/|amzn\.in\/)/i;
+    return pattern.test(url);
+  };
+
   const handleAnalyze = async () => {
-    if (!productUrl.trim()) return;
+    setError("");
+
+    if (!productUrl.trim()) {
+      setError("Please enter Amazon product link");
+      return;
+    }
+
+    // ✅ validate amazon product url
+    if (!isAmazonProductUrl(productUrl)) {
+      setError("Invalid Amazon Product URL");
+      return;
+    }
 
     setLoading(true);
 
@@ -25,12 +44,12 @@ const Searchbar = () => {
 
       const data = await response.json();
 
-      // ✅ Store FULL backend response in Context
       setData(data);
-
       console.log("ANALYSIS RESULT:", data);
+
     } catch (error) {
       console.error("Analyze failed:", error);
+      setError("Backend error. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -46,6 +65,8 @@ const Searchbar = () => {
         className="p-2 border border-gray-300 rounded-md focus:outline-none 
         focus:ring-2 focus:ring-blue-500 w-2/3"
       />
+
+      {error && <p className="text-red-500">{error}</p>}
 
       <button
         onClick={handleAnalyze}

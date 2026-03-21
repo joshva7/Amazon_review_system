@@ -44,7 +44,6 @@ export default function ChatWithReviews() {
         Chat With Reviews AI
       </h2>
 
-      {/* Chat Box */}
       <div className="border rounded p-4 h-96 overflow-y-auto bg-gray-50">
 
         {messages.map((msg, i) => (
@@ -69,7 +68,6 @@ export default function ChatWithReviews() {
 
       </div>
 
-      {/* Input */}
       <div className="flex mt-4 gap-2">
 
         <input
