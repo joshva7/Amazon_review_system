@@ -23,7 +23,6 @@ const Searchbar = () => {
       return;
     }
 
-    // ✅ validate amazon product url
     if (!isAmazonProductUrl(productUrl)) {
       setError("Invalid Amazon Product URL");
       return;

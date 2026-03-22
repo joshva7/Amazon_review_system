@@ -1,13 +1,11 @@
-from cmath import asin
+# from cmath import asin
 from utils.serpapi_product import fetch_amazon_product_details
-import os
-import sys
 from dotenv import load_dotenv
 from utils.url_resolver import resolve_amazon_url
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from nlp.sentiment import analyze_reviews
-from utils.demo_reviews import DEMO_REVIEWS
+from utils.reviews import REVIEWS
 from utils.asin_extractor import extract_asin
 from utils.serpapi_reviews import fetch_amazon_reviews
 from flask_cors import CORS
@@ -20,7 +18,7 @@ api_key = os.getenv("SERPAPI_KEY")
 print("Loaded key:", api_key)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, BASE_DIR)
-DEMO_ANALYSIS_CACHE = analyze_reviews(DEMO_REVIEWS.copy())
+DEMO_ANALYSIS_CACHE = analyze_reviews(REVIEWS.copy())
 app = Flask(__name__)
 CORS(
     app,
@@ -79,7 +77,7 @@ def analyze():
 
             if len(reviews) < MIN_REVIEWS:
                 needed = MIN_REVIEWS - len(reviews)
-                reviews.extend(DEMO_REVIEWS[:needed])
+                reviews.extend(REVIEWS[:needed])
                 source = "serpapi_amazon"
             else:
                 source = "serpapi_amazon"
@@ -87,12 +85,12 @@ def analyze():
             analysis = analyze_reviews(reviews)
 
         else:
-            reviews = DEMO_REVIEWS.copy()
+            reviews = REVIEWS.copy()
             source = "demo_only"
             analysis = DEMO_ANALYSIS_CACHE
 
     else:
-        reviews = DEMO_REVIEWS.copy()
+        reviews = REVIEWS.copy()
         source = "demo_only"
         analysis = DEMO_ANALYSIS_CACHE
 
@@ -128,13 +126,13 @@ def chat_reviews():
 
             if len(reviews) < MIN_REVIEWS:
                 needed = MIN_REVIEWS - len(reviews)
-                reviews.extend(DEMO_REVIEWS[:needed])
+                reviews.extend(REVIEWS[:needed])
 
         else:
-            reviews = DEMO_REVIEWS.copy()
+            reviews = REVIEWS.copy()
 
     else:
-        reviews = DEMO_REVIEWS.copy()
+        reviews = REVIEWS.copy()
 
     # ---- Build Embeddings ----
     review_embeddings = build_review_embeddings(reviews)

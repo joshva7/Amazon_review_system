@@ -1,4 +1,4 @@
-DEMO_REVIEWS = [
+REVIEWS = [
     "Excellent product with strong build quality.",
     "Battery life is very good and lasts all day.",
     "Worth the price and offers good value.",
